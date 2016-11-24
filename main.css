@@ -1,0 +1,33 @@
+.wrapper{
+	width: 500px;
+	margin: auto;
+	margin-top: 100px;
+}
+.box{
+	padding:50px;
+	width: 100%;
+	border: black solid 1px;
+	box-sizing: border-box;
+}
+
+.box .start-button{
+	margin:auto;
+	text-align:center;
+}
+
+.pre-quiz{
+	background-color: green;
+	height: 500px;
+}
+
+.quiz-in-progress{
+	background-color: blue;
+}
+
+.quiz-cleanup{
+	background-color: red;
+}
+
+.hidden{
+	display: none;
+}

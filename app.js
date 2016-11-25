@@ -26,10 +26,16 @@ var quiz = [{
 var getQuestion = function(state){
     var questionIndex = Math.floor((Math.random() * quiz.length));
 
-    if (state.questionsAsked < 0 || !state.questionsAsked.includes(questionIndex))
+    if (state.questionsAsked.length < 0 || !state.questionsAsked.includes(questionIndex))
+    {
+        state.questionsAsked.push(questioIndex);
         return quiz[questionIndex];
+    }
     else
         getQuestion(state)
 }
 
-console.log(getQuestion(state));
+var renderQuestion = function(state){
+    var question = getQuestion(state);
+
+}

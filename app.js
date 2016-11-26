@@ -37,7 +37,6 @@ var getQuestion = function(state){
         return getQuestion(state);
 }
 
-//weird things happening: http://jsbin.com/rakobi/edit?js,console
 var renderQuestion = function(state, element){
     var question = state.currentQuestion;
     console.log(question);
@@ -67,9 +66,24 @@ var drawBoard = function(state){
         renderQuestion(state, $('.quiz-area'));
     }
     else{
-        $('.quiz-in-progress').addClass('hidden');
-        $('.quiz-cleanup').removeClass('hidden');
+        renderSummary(state,$('.results-area'));
     }
+}
+
+var renderSummary = function(state, element){
+    $('.quiz-in-progress').addClass('hidden');
+    $('.quiz-cleanup').removeClass('hidden');
+    
+    var summaryHTML = '\
+    <h2>Congratulations!</h2>\
+    <p>You were able to get ' + state.questionsCorrect.length + 
+    ' questions out of ' + quiz.length + ' correct. Which is not too shabby! If you\'d like\
+    to  play again. Feel free to click on the <b>Restart</b> button below to\
+    begin anew.</p>\
+    '
+
+    element.html(summaryHTML);
+
 }
 
 //listeners
@@ -97,6 +111,16 @@ $('.start-button').on('click', function(event){
     $('.pre-quiz').addClass('hidden');
     $('.quiz-in-progress').removeClass('hidden');
     drawBoard(state);
+})
+
+$('.restart-button').on('click', function(event){
+    state.currentQuestion = {};
+    state.currentAnswer = -1;
+    state.questionsAsked = [];
+    state.questionsCorrect = [];
+    $('.quiz-cleanup').addClass('hidden');
+    $('.quiz-in-progress').addClass('hidden');
+    $('.pre-quiz').removeClass('hidden');
 })
 
 //Start the game

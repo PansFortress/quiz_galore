@@ -16,8 +16,6 @@
 	text-align:center;
 }
 
-
-
 .pre-quiz{
 	background-color: green;
 }
@@ -37,4 +35,8 @@
 .selected{
 	color: red;
 	border: 1px black dotted;
+}
+
+.pre-area h2{
+	text-align: center;
 }

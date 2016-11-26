@@ -1,6 +1,7 @@
 //quiz should be an array of objects
 //each object should contain the question, the answers, and the index of the correct answer - I think?
 var state = {
+    screen: "pre-quiz",
     currentQuestion: {},
     currentAnswer: -1,
     questionsAsked: [],
@@ -41,14 +42,37 @@ var renderQuestion = function(state, element){
     var question = state.currentQuestion;
     console.log(question);
 
-    var questionsHTML = '<p class = "question">' + 
+    var questionsHTML = '<p class = "question">' +
         question.question + '</p>' +
-        '<ul class = "answers">' + 
+        '<ul class = "answers">' +
         question.answers.map(function(answer){
             return '<li class = "answer">' + answer + '</li>'
         }).join(" ") + '</ul>' + getProgressString(state);
 
     element.html(questionsHTML);
+}
+
+var renderPreQuiz = function(state, element){
+    var preQuizHTML = '\
+    <h2>Welcome to Battlestar Galactica the Quiz!</h2>\
+    <p>We\'ll test your knowledge on what you think you know about the\
+    cult classic TV show that aired on the Sci-Fi channel from 2003-2009.\
+    When you\'re ready, click on the <b>Start</b> button below and give it\
+    a whirl</p>';
+
+    element.html(preQuizHTML);
+}
+
+var renderSummary = function(state, element){
+    var summaryHTML = '\
+    <h2>Congratulations!</h2>\
+    <p>You were able to get ' + state.questionsCorrect.length +
+    ' questions out of ' + quiz.length + ' correct. Which is not too shabby! If you\'d like\
+    to  play again. Feel free to click on the <b>Restart</b> button below to\
+    begin anew.</p>\
+    '
+
+    element.html(summaryHTML);
 }
 
 var getProgressString = function(state){
@@ -61,28 +85,28 @@ var getProgressString = function(state){
 }
 
 var drawBoard = function(state){
-    if(state.questionsAsked.length < quiz.length){
-        state.currentQuestion = getQuestion(state);
-        renderQuestion(state, $('.quiz-area'));
+    if(state.screen === "pre-quiz"){
+        renderPreQuiz(state, $('.pre-area'));
+        $('.pre-quiz').removeClass('hidden');
+        $('.quiz-in-progress').addClass('hidden');
+        $('.quiz-cleanup').addClass('hidden');
     }
-    else{
-        renderSummary(state,$('.results-area'));
+    if(state.screen === "quiz-in-progress"){
+        if(state.questionsAsked.length < quiz.length){
+            state.currentQuestion = getQuestion(state);
+            renderQuestion(state, $('.quiz-area'));
+            $('.pre-quiz').addClass('hidden');
+            $('.quiz-in-progress').removeClass('hidden');
+            $('.quiz-cleanup').addClass('hidden');
+        }
+        else{
+            state.screen = "quiz-cleanup";
+            renderSummary(state,$('.results-area'));
+            $('.pre-quiz').addClass('hidden');
+            $('.quiz-in-progress').addClass('hidden');
+            $('.quiz-cleanup').removeClass('hidden');
+        }
     }
-}
-
-var renderSummary = function(state, element){
-    $('.quiz-in-progress').addClass('hidden');
-    $('.quiz-cleanup').removeClass('hidden');
-    
-    var summaryHTML = '\
-    <h2>Congratulations!</h2>\
-    <p>You were able to get ' + state.questionsCorrect.length + 
-    ' questions out of ' + quiz.length + ' correct. Which is not too shabby! If you\'d like\
-    to  play again. Feel free to click on the <b>Restart</b> button below to\
-    begin anew.</p>\
-    '
-
-    element.html(summaryHTML);
 
 }
 
@@ -108,8 +132,7 @@ $('.submit-button').on('click', function(event){
 })
 
 $('.start-button').on('click', function(event){
-    $('.pre-quiz').addClass('hidden');
-    $('.quiz-in-progress').removeClass('hidden');
+    state.screen = 'quiz-in-progress';
     drawBoard(state);
 })
 
@@ -118,9 +141,9 @@ $('.restart-button').on('click', function(event){
     state.currentAnswer = -1;
     state.questionsAsked = [];
     state.questionsCorrect = [];
-    $('.quiz-cleanup').addClass('hidden');
-    $('.quiz-in-progress').addClass('hidden');
-    $('.pre-quiz').removeClass('hidden');
+    state.screen = 'pre-quiz';
+    drawBoard(state);
 })
 
 //Start the game
+drawBoard(state);

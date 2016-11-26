@@ -44,7 +44,7 @@ var renderQuestion = function(state, element){
         '<ul>' + 
         question.answers.map(function(answer){
             return '<li>' + answer + '</li>'
-        }) + '</ul>';
+        }).join(" ") + '</ul>';
 
     console.log(questionsHTML);
 

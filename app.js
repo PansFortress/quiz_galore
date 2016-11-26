@@ -1,6 +1,8 @@
 //quiz should be an array of objects
 //each object should contain the question, the answers, and the index of the correct answer - I think?
 var state = {
+    currentQuestion: {},
+    currentAnswer: -1,
     questionsAsked: [],
     questionsCorrect: []
 }
@@ -37,21 +39,33 @@ var getQuestion = function(state){
 
 //weird things happening: http://jsbin.com/rakobi/edit?js,console
 var renderQuestion = function(state, element){
-    var question = getQuestion(state);
+    var question = state.currentQuestion;
 
     var questionsHTML = '<p class = question>' + 
         question.question + '</p>' +
-        '<ul>' + 
+        '<ul class = "answers">' + 
         question.answers.map(function(answer){
-            return '<li>' + answer + '</li>'
+            return '<li class = "answer">' + answer + '</li>'
         }).join(" ") + '</ul>';
-
-    console.log(questionsHTML);
 
     element.html(questionsHTML);
 }
 
-while(state.questionsAsked.length < quiz.length){
-    console.log(state.questionsAsked);
-    renderQuestion(state, $('.quiz-in-progress'));    
+var setQuestion = function(state){
+    state.currentQuestion = getQuestion(state);
 }
+
+setQuestion(state);
+renderQuestion(state, $('.quiz-area'));
+
+//listeners
+$('.answers').on('click', '.answer', function(event){
+    $(this).closest('ul').find('li').removeClass('selected');
+    $(this).addClass('selected');
+    state.currentAnswer = state.currentQuestion.answers.indexOf($(this).text());
+    console.log(state.currentAnswer);
+})
+
+$('.submit-button').on('click', function(event){
+    $(this).addClass('selected');
+})

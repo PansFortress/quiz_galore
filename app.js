@@ -8,18 +8,28 @@ var state = {
 
 var quiz = [{
     "question":"How many humanoid cylon models were there?",
-    "answers":["Seven", "Thirteen", "Twelve"],
+    "answers":["Seven", "Thirteen", "Twelve", "Three", "Fifteen"],
     "answerIndex": 1
 },
 {
     "question":"What is the name of the planet that was made uninhabitable in Season 1, Episode 1?",
-    "answers":["Caprica", "Earth", "Nebula 5"],
+    "answers":["Caprica", "Earth", "Nebula 5", "Earth 2", "Glory"],
     "answerIndex": 0
 },
 {
     "question": "What was Laura Roslin's position before she became President?",
-    "answers": ["Secretary of State", "Secretary of Agriculture", "Secretary of Education"],
+    "answers": ["Secretary of State", "Secretary of Agriculture", "Secretary of Education", "Governor of Galactic Trade", "Mayor of Caprica City"],
     "answerIndex": 2
+},
+{
+    "question": "What is Bill Adam's military rank at the end of the series?",
+    "answers": ["1st Officer", "Captain", "Flight General", "Commander", "Admiral"],
+    "answerIndex": 4
+},
+{
+    "question": "On which planet was Gaius Baltar born?",
+    "answers": ["Aquaria", "Kobol", "Leonis", "Aerilon", "Picon"],
+    "answerIndex": 3
 }
 ]
 

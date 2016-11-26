@@ -10,12 +10,12 @@ var state = {
 var quiz = [{
     "question":"How many humanoid cylon models were there?",
     "answers":["Seven", "Thirteen", "Twelve"],
-    "answerIndex": 2
+    "answerIndex": 1
 },
 {
     "question":"What is the name of the planet that was made uninhabitable in Season 1, Episode 1?",
     "answers":["Caprica", "Earth", "Nebula 5"],
-    "answerIndex": 1
+    "answerIndex": 0
 },
 {
     "question": "What was Laura Roslin's position before she became President?",
@@ -28,18 +28,19 @@ var quiz = [{
 var getQuestion = function(state){
     var questionIndex = Math.floor((Math.random() * quiz.length));
 
-    if (state.questionsAsked.length < 0 || !state.questionsAsked.includes(questionIndex))
+    if (state.questionsAsked.length == 0 || !state.questionsAsked.includes(questionIndex))
     {
         state.questionsAsked.push(questionIndex);
         return quiz[questionIndex];
     }
     else
-        getQuestion(state)
+        return getQuestion(state);
 }
 
 //weird things happening: http://jsbin.com/rakobi/edit?js,console
 var renderQuestion = function(state, element){
     var question = state.currentQuestion;
+    console.log(question);
 
     var questionsHTML = '<p class = "question">' + 
         question.question + '</p>' +
@@ -60,13 +61,9 @@ var getProgressString = function(state){
            progressNumber + ' of ' + quiz.length + '</p>';
 }
 
-var setQuestion = function(state){
-    state.currentQuestion = getQuestion(state);
-}
-
 var drawBoard = function(state){
     if(state.questionsAsked.length < quiz.length){
-        setQuestion(state);
+        state.currentQuestion = getQuestion(state);
         renderQuestion(state, $('.quiz-area'));
     }
     else{
@@ -84,9 +81,6 @@ $('.quiz-area').on('click', '.answers .answer', function(event){
 })
 
 $('.submit-button').on('click', function(event){
-    //record whether their answer was right or wrong
-    //reset CurrentAnswer
-    //getNextQuestion
     if(state.currentAnswer === state.currentQuestion.answerIndex){
         state.questionsCorrect.push(state.currentQuestion);
         state.currentAnswer = -1;
@@ -102,6 +96,7 @@ $('.submit-button').on('click', function(event){
 $('.start-button').on('click', function(event){
     $('.pre-quiz').addClass('hidden');
     $('.quiz-in-progress').removeClass('hidden');
+    drawBoard(state);
 })
 
-drawBoard(state);
+//Start the game

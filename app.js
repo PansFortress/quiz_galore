@@ -41,25 +41,42 @@ var getQuestion = function(state){
 var renderQuestion = function(state, element){
     var question = state.currentQuestion;
 
-    var questionsHTML = '<p class = question>' + 
+    var questionsHTML = '<p class = "question">' + 
         question.question + '</p>' +
         '<ul class = "answers">' + 
         question.answers.map(function(answer){
             return '<li class = "answer">' + answer + '</li>'
-        }).join(" ") + '</ul>';
+        }).join(" ") + '</ul>' + getProgressString(state);
 
     element.html(questionsHTML);
+}
+
+var getProgressString = function(state){
+    var progressNumber = 0;
+    if(state.questionsAsked.length > 0){
+        progressNumber = state.questionsAsked.length;
+    }
+    return '<p class = "progress"> You are on question ' +
+           progressNumber + ' of ' + quiz.length + '</p>';
 }
 
 var setQuestion = function(state){
     state.currentQuestion = getQuestion(state);
 }
 
-setQuestion(state);
-renderQuestion(state, $('.quiz-area'));
+var drawBoard = function(state){
+    if(state.questionsAsked.length < quiz.length){
+        setQuestion(state);
+        renderQuestion(state, $('.quiz-area'));
+    }
+    else{
+        $('.quiz-in-progress').addClass('hidden');
+        $('.quiz-cleanup').removeClass('hidden');
+    }
+}
 
 //listeners
-$('.answers').on('click', '.answer', function(event){
+$('.quiz-area').on('click', '.answers .answer', function(event){
     $(this).closest('ul').find('li').removeClass('selected');
     $(this).addClass('selected');
     state.currentAnswer = state.currentQuestion.answers.indexOf($(this).text());
@@ -67,5 +84,24 @@ $('.answers').on('click', '.answer', function(event){
 })
 
 $('.submit-button').on('click', function(event){
-    $(this).addClass('selected');
+    //record whether their answer was right or wrong
+    //reset CurrentAnswer
+    //getNextQuestion
+    if(state.currentAnswer === state.currentQuestion.answerIndex){
+        state.questionsCorrect.push(state.currentQuestion);
+        state.currentAnswer = -1;
+        drawBoard(state);
+    }
+    else{
+        state.currentAnswer = -1;
+        drawBoard(state);
+    }
+
 })
+
+$('.start-button').on('click', function(event){
+    $('.pre-quiz').addClass('hidden');
+    $('.quiz-in-progress').removeClass('hidden');
+})
+
+drawBoard(state);

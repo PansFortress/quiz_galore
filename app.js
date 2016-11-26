@@ -22,20 +22,36 @@ var quiz = [{
 }
 ]
 
-
+//Returns an unasked Question
 var getQuestion = function(state){
     var questionIndex = Math.floor((Math.random() * quiz.length));
 
     if (state.questionsAsked.length < 0 || !state.questionsAsked.includes(questionIndex))
     {
-        state.questionsAsked.push(questioIndex);
+        state.questionsAsked.push(questionIndex);
         return quiz[questionIndex];
     }
     else
         getQuestion(state)
 }
 
-var renderQuestion = function(state){
+//weird things happening: http://jsbin.com/rakobi/edit?js,console
+var renderQuestion = function(state, element){
     var question = getQuestion(state);
 
+    var questionsHTML = '<p class = question>' + 
+        question.question + '</p>' +
+        '<ul>' + 
+        question.answers.map(function(answer){
+            return '<li>' + answer + '</li>'
+        }) + '</ul>';
+
+    console.log(questionsHTML);
+
+    element.html(questionsHTML);
+}
+
+while(state.questionsAsked.length < quiz.length){
+    console.log(state.questionsAsked);
+    renderQuestion(state, $('.quiz-in-progress'));    
 }

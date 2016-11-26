@@ -16,12 +16,21 @@ body{
 
 li{
 	list-style: none;
+	padding: 2%;
+	margin: 1%;
+	border: 1px solid white;
+	border-radius: 3px;
+	width: 50%;
 }
 
 li:hover{
 	font-weight: bold;
 	font-size: 110%;
 	cursor:default;
+}
+
+.hidden{
+	display: none;
 }
 
 .button{
@@ -42,9 +51,8 @@ li:hover{
 	cursor: pointer;
 }
 
-
 .wrapper{
-	width: 50%;
+	border: none;
 	margin-top: 5%;
 }
 
@@ -52,7 +60,6 @@ li:hover{
 	padding:3%;
 	width: 100%;
 	margin-left: 5%;
-	border: black solid 1px;
 	box-sizing: border-box;
 }
 
@@ -61,21 +68,10 @@ li:hover{
 	text-align:center;
 }
 
-.pre-quiz{
-}
-
-.quiz-in-progress{
-}
-
-.quiz-cleanup{
-}
-
-.hidden{
-	display: none;
-}
-
 .selected{
 	color: blue;
+	font-weight: bold;
+	font-size:110%;
 }
 
 .pre-area h2{
@@ -94,3 +90,23 @@ li:hover{
 	font-weight: bold;
 	color: gray;
 }
+
+.col-3, .col-4, .col-6, .col-12 {
+  width: 100%;
+}
+
+@media only screen and (min-width: 640px){
+	.col-3{
+		width: 25%;
+	}
+	.col-4{
+		width: 30%;
+	}
+	.col-6{
+		width: 50%;
+	}
+	.col-12{
+		width: 100%;
+	}
+}
+

@@ -1,5 +1,3 @@
-//quiz should be an array of objects
-//each object should contain the question, the answers, and the index of the correct answer - I think?
 var state = {
     screen: "pre-quiz",
     currentQuestion: {},
@@ -54,10 +52,12 @@ var renderQuestion = function(state, element){
 var renderPreQuiz = function(state, element){
     var preQuizHTML = '\
     <h2>Welcome to Battlestar Galactica the Quiz!</h2>\
-    <p>We\'ll test your knowledge on what you think you know about the\
+    <p>This quiz will be tesing your knowledge on what you think you know about the\
     cult classic TV show that aired on the Sci-Fi channel from 2003-2009.\
-    When you\'re ready, click on the <b>Start</b> button below and give it\
-    a whirl</p>';
+    This quiz won\'t be testing you on your knowledge of the original series\
+    which aired in 1978.\
+    When you\'re ready, click on the <span class = "action-text">Start</span> button below and give it\
+    a whirl. </p>';
 
     element.html(preQuizHTML);
 }
@@ -67,7 +67,7 @@ var renderSummary = function(state, element){
     <h2>Congratulations!</h2>\
     <p>You were able to get ' + state.questionsCorrect.length +
     ' questions out of ' + quiz.length + ' correct. Which is not too shabby! If you\'d like\
-    to  play again. Feel free to click on the <b>Restart</b> button below to\
+    to  play again. Feel free to click on the <span class = "action-text">Restart</span> button below to\
     begin anew.</p>\
     '
 
@@ -83,6 +83,7 @@ var getProgressString = function(state){
            progressNumber + ' of ' + quiz.length + '</p>';
 }
 
+//TODO: Drawboard should take the state and any errors
 var drawBoard = function(state){
     if(state.screen === "pre-quiz"){
         renderPreQuiz(state, $('.pre-area'));
@@ -116,13 +117,21 @@ $('.quiz-area').on('click', '.answers .answer', function(event){
     state.currentAnswer = state.currentQuestion.answers.indexOf($(this).text());
 })
 
+//TODO: move the error handling to drawBoard logic rather than keep it here
 $('.submit-button').on('click', function(event){
-    if(state.currentAnswer === state.currentQuestion.answerIndex){
+    if(state.currentAnswer === -1){
+        $('.error-area').html('<p>You must select an answer before moving \
+            to the next question</p>');
+        $('.error-area').removeClass('hidden');
+    }
+    else if(state.currentAnswer === state.currentQuestion.answerIndex){
+        $('.error-area').addClass('hidden');
         state.questionsCorrect.push(state.currentQuestion);
         state.currentAnswer = -1;
         drawBoard(state);
     }
     else{
+        $('.error-area').addClass('hidden');
         state.currentAnswer = -1;
         drawBoard(state);
     }

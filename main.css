@@ -1,12 +1,57 @@
+html{
+	background: url(img/background.jpg) no-repeat center center fixed black;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+body{
+	font-family: 'Roboto', sans-serif;
+}
+
+*{
+	color: white;
+}
+
+li{
+	list-style: none;
+}
+
+li:hover{
+	font-weight: bold;
+	font-size: 110%;
+	cursor:default;
+}
+
+.button{
+	border: 0px solid white;
+	border-radius: 10px;
+	background-color: white;
+	color: black;
+	width: 100px;
+	padding: 20px;
+	text-align: center;
+	transition-duration: 0.4s;
+}
+
+.button:hover{
+	background-color: black;
+	color:white;
+	border:none;
+	cursor: pointer;
+}
+
+
 .wrapper{
-	width: 500px;
-	margin: auto;
-	margin-top: 100px;
+	width: 50%;
+	margin-top: 5%;
 }
 
 .pre-quiz, .quiz-in-progress, .quiz-cleanup{
-	padding:50px;
+	padding:3%;
 	width: 100%;
+	margin-left: 5%;
 	border: black solid 1px;
 	box-sizing: border-box;
 }
@@ -17,15 +62,12 @@
 }
 
 .pre-quiz{
-	background-color: green;
 }
 
 .quiz-in-progress{
-	background-color: blue;
 }
 
 .quiz-cleanup{
-	background-color: red;
 }
 
 .hidden{
@@ -33,10 +75,22 @@
 }
 
 .selected{
-	color: red;
-	border: 1px black dotted;
+	color: blue;
 }
 
 .pre-area h2{
 	text-align: center;
+}
+
+.error-area p{
+	color: red;
+}
+
+.quiz-area p{
+	font-size:20px;
+}
+
+.action-text{
+	font-weight: bold;
+	color: gray;
 }

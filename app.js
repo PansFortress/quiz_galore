@@ -40,7 +40,6 @@ var getQuestion = function(state){
 
 var renderQuestion = function(state, element){
     var question = state.currentQuestion;
-    console.log(question);
 
     var questionsHTML = '<p class = "question">' +
         question.question + '</p>' +
@@ -115,7 +114,6 @@ $('.quiz-area').on('click', '.answers .answer', function(event){
     $(this).closest('ul').find('li').removeClass('selected');
     $(this).addClass('selected');
     state.currentAnswer = state.currentQuestion.answers.indexOf($(this).text());
-    console.log(state.currentAnswer);
 })
 
 $('.submit-button').on('click', function(event){

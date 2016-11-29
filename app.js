@@ -34,6 +34,8 @@ var quiz = [{
 ]
 
 //Returns an unasked Question
+//TODO Create an indecies array and shuffle that array
+//Loop through the array and for each element, peak at 1 element at random higher than it and swap
 var getQuestion = function(state){
     var questionIndex = Math.floor((Math.random() * quiz.length));
 
@@ -121,6 +123,7 @@ var drawBoard = function(state){
 }
 
 //listeners
+//TODO Record index rather than .text() of the position the user has selected
 $('.quiz-area').on('click', '.answers .answer', function(event){
     $(this).closest('ul').find('li').removeClass('selected');
     $(this).addClass('selected');
